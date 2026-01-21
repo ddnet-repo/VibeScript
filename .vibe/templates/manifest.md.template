@@ -1,0 +1,65 @@
+# Change Manifest: {{SLUG}}
+
+**Date**: {{DATE}}
+**Timestamp**: {{TIMESTAMP}}
+
+## Summary
+
+Brief description of what this change accomplishes.
+
+## Changes
+
+List all files modified and what changed:
+
+- `path/to/file.ts`: Description of changes
+- `path/to/another.ts`: Description of changes
+
+## Affected Systems
+
+- [ ] Authentication
+- [ ] Database
+- [ ] API endpoints
+- [ ] UI components
+- [ ] Configuration
+- [ ] Other: ___
+
+## Testing
+
+Describe how this change was tested:
+
+- [ ] Unit tests pass
+- [ ] Integration tests pass
+- [ ] Manual verification
+- [ ] Tested locally
+- [ ] Tested in staging
+
+### Test Commands
+
+```bash
+pnpm test
+pnpm vibe:check
+pnpm vibe:guard
+```
+
+## Rollback
+
+Steps to undo this change if needed:
+
+1. Revert the commit: `git revert <hash>`
+2. Additional rollback steps if any
+3. Verification after rollback
+
+## Risk Assessment
+
+- **Risk Level**: low | medium | high
+- **Blast Radius**: Which systems/users affected
+- **Monitoring**: What to watch after deploy
+
+## Checklist
+
+- [ ] All directives complete in .vibe.ts files
+- [ ] Touch patterns match actual changes
+- [ ] Tests updated for contract files
+- [ ] vibe:check passes
+- [ ] vibe:guard passes
+- [ ] Rollback plan verified

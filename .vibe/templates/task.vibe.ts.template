@@ -1,0 +1,19 @@
+// @vibe:goal {{GOAL}}
+// @vibe:touch {{TOUCH}}
+// @vibe:inputs {{INPUTS}}
+// @vibe:outputs {{OUTPUTS}}
+// @vibe:constraints {{CONSTRAINTS}}
+// @vibe:tests {{TESTS}}
+// @vibe:risk {{RISK}}
+// @vibe:rollback {{ROLLBACK}}
+//
+// Created: {{DATE}}
+// ---
+
+/**
+ * {{GOAL}}
+ */
+export function {{FUNCTION_NAME}}(): void {
+  // TODO: Implement
+  throw new Error('Not implemented');
+}

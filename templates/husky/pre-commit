@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🎸 Running VibeScript pre-commit checks..."
+
+# Run vibe checker
+pnpm vibe:check
+if [ $? -ne 0 ]; then
+  echo "❌ Vibe check failed. Please fix violations before committing."
+  exit 1
+fi
+
+# Run vibe guard
+pnpm vibe:guard
+if [ $? -ne 0 ]; then
+  echo "❌ Vibe guard failed. Please fix violations before committing."
+  exit 1
+fi
+
+echo "✅ VibeScript checks passed!"

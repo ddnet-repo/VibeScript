@@ -1,0 +1,57 @@
+{
+  "name": "@ddnet-repo/vibescript",
+  "version": "1.0.0",
+  "description": "Governance tooling that constrains AI-assisted coding through directives, manifests, ownership rules, and compliance checks",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "vibescript": "./dist/cli/main.js"
+  },
+  "files": [
+    "dist",
+    "templates",
+    "docs"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest",
+    "lint": "eslint src/**/*.ts",
+    "vibe:check": "node dist/cli/main.js check",
+    "vibe:guard": "node dist/cli/main.js guard",
+    "prepublishOnly": "pnpm build"
+  },
+  "keywords": [
+    "ai",
+    "governance",
+    "typescript",
+    "claude",
+    "vibe",
+    "directives",
+    "compliance"
+  ],
+  "author": "burtbyproxy <steve@datadigital.net>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/burtbyproxy/vibescript.git"
+  },
+  "bugs": {
+    "url": "https://github.com/burtbyproxy/vibescript/issues"
+  },
+  "homepage": "https://github.com/burtbyproxy/vibescript#readme",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  },
+  "dependencies": {
+    "commander": "^12.0.0",
+    "minimatch": "^9.0.0",
+    "picocolors": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

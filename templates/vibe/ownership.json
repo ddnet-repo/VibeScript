@@ -1,0 +1,48 @@
+{
+  "ai_owned_globs": [
+    "**/*.vibe.ts"
+  ],
+  "human_owned_globs": [
+    "**/*.human.ts"
+  ],
+  "contract_owned_globs": [
+    "**/*.lock.ts"
+  ],
+  "blocked_globs": [
+    "**/dist/**",
+    "**/build/**",
+    "**/node_modules/**",
+    "**/.next/**",
+    "**/coverage/**",
+    "**/.git/**"
+  ],
+  "require_manifest_for_globs": [
+    "**/*.vibe.ts",
+    "**/*.lock.ts"
+  ],
+  "require_touch_enforcement": true,
+  "touch_exempt_globs": [
+    ".vibe/**",
+    "docs/**",
+    "README.md",
+    "CHANGELOG.md",
+    ".github/**",
+    "*.md",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml"
+  ],
+  "guard_exempt_globs": [
+    ".vibe/**",
+    "docs/**",
+    "*.md",
+    "*.json",
+    "*.yaml",
+    "*.yml",
+    ".github/**",
+    ".gitignore",
+    ".eslintrc*",
+    ".prettier*",
+    "tsconfig.json"
+  ]
+}
