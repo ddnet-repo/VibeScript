@@ -20,7 +20,7 @@
     "lint": "eslint src/**/*.ts",
     "vibe:check": "node dist/cli/main.js check",
     "vibe:guard": "node dist/cli/main.js guard",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "ai",

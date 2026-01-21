@@ -1,8 +1,10 @@
 # VibeScript
 
-**Governance tooling for AI-assisted coding.**
+**Governance tooling for AI-assisted coding in TypeScript/JavaScript projects.**
 
 Put guardrails on Claude, Copilot, and other AI coding assistants so they can't go rogue in your codebase.
+
+> **Language Support**: VibeScript is designed for **TypeScript and JavaScript** projects using Node.js. The governance files use `.vibe.ts` extensions and the tooling integrates with npm/pnpm workflows.
 
 ---
 
