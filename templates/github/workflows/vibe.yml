@@ -26,25 +26,42 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Detect package manager
+        id: detect-pm
+        run: |
+          if [ -f "pnpm-lock.yaml" ]; then
+            echo "manager=pnpm" >> $GITHUB_OUTPUT
+            echo "install=pnpm install --frozen-lockfile" >> $GITHUB_OUTPUT
+            echo "run=pnpm" >> $GITHUB_OUTPUT
+          elif [ -f "yarn.lock" ]; then
+            echo "manager=yarn" >> $GITHUB_OUTPUT
+            echo "install=yarn install --frozen-lockfile" >> $GITHUB_OUTPUT
+            echo "run=yarn" >> $GITHUB_OUTPUT
+          else
+            echo "manager=npm" >> $GITHUB_OUTPUT
+            echo "install=npm ci" >> $GITHUB_OUTPUT
+            echo "run=npm run" >> $GITHUB_OUTPUT
+          fi
+
       - name: Setup pnpm
+        if: steps.detect-pm.outputs.manager == 'pnpm'
         uses: pnpm/action-setup@v2
         with:
           version: 9
 
-      - name: Get pnpm store directory
-        shell: bash
-        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - name: Setup pnpm cache
+      - name: Cache dependencies
         uses: actions/cache@v4
         with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          path: |
+            ~/.npm
+            ~/.pnpm-store
+            node_modules
+          key: ${{ runner.os }}-${{ steps.detect-pm.outputs.manager }}-${{ hashFiles('**/package-lock.json', '**/pnpm-lock.yaml', '**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+            ${{ runner.os }}-${{ steps.detect-pm.outputs.manager }}-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: ${{ steps.detect-pm.outputs.install }}
 
       - name: Set base ref for comparison
         run: |
@@ -55,7 +72,7 @@ jobs:
           fi
 
       - name: Run Vibe Check (guard + checker)
-        run: pnpm vibe:check
+        run: ${{ steps.detect-pm.outputs.run }} vibe:check
 
       - name: Upload reports on failure
         if: failure()
