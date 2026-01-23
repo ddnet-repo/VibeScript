@@ -130,9 +130,14 @@ pnpm vibe:manifest # Create change manifest
 
 ## File Conventions
 
-- \`*.vibe.ts\` - AI-owned files (freely modifiable by AI)
-- \`*.human.ts\` - Human-owned files (require @vibe:allowHumanEdits)
-- \`*.lock.ts\` - Contract files (require test changes)
+- \`*.vibe.*\` - AI-owned files (freely modifiable by AI)
+  Examples: .vibe.ts, .vibe.py, .vibe.rb, .vibe.go, etc.
+- \`*.human.*\` - Human-owned files (require @vibe:allowHumanEdits)
+- \`*.lock.*\` - Contract files (require test changes)
+
+Supported languages: TypeScript, JavaScript, Python, Ruby, Go, Rust,
+Elixir, Dart, Lua, Shell, Clojure, Haskell, Crystal, R, Julia, Zig,
+PHP, Java, C#, Swift, Kotlin, Scala
 
 See \`.vibe/spec.md\` for complete documentation.
 `;
@@ -144,7 +149,8 @@ See \`.vibe/spec.md\` for complete documentation.
   console.log(pc.dim('Next steps:'));
   console.log(pc.dim('  1. Review .vibe/spec.md for the VibeScript specification'));
   console.log(pc.dim('  2. Review .vibe/ownership.json to configure ownership rules'));
-  console.log(pc.dim('  3. Run `pnpm vibescript task "my first task"` to create a .vibe.ts file'));
+  console.log(pc.dim('  3. Run `pnpm vibescript task "my first task"` to create a vibe file'));
+  console.log(pc.dim('     (Creates .vibe.ts by default, or manually create for your language)'));
   console.log();
 }
 

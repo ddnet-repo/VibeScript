@@ -1,4 +1,5 @@
 import * as fs from 'node:fs';
+import { detectLanguage } from './language-config.js';
 
 export interface VibeDirectives {
   goal?: string;
@@ -26,15 +27,28 @@ export const REQUIRED_DIRECTIVES = [
 
 export function parseDirectives(filePath: string): VibeDirectives {
   const content = fs.readFileSync(filePath, 'utf-8');
-  return parseDirectivesFromContent(content);
+  return parseDirectivesFromContent(content, filePath);
 }
 
-export function parseDirectivesFromContent(content: string): VibeDirectives {
+export function parseDirectivesFromContent(content: string, filePath?: string): VibeDirectives {
   const directives: VibeDirectives = {};
 
-  // Match // @vibe:key value pattern
+  // Determine comment prefix based on language
+  let commentPrefix = '//'; // default for TypeScript/JavaScript
+  
+  if (filePath) {
+    const langConfig = detectLanguage(filePath);
+    if (langConfig) {
+      commentPrefix = langConfig.lineCommentPrefix;
+    }
+  }
+
+  // Escape special regex characters in comment prefix
+  const escapedPrefix = commentPrefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  
+  // Match @vibe:key value pattern with language-appropriate comment style
   // Supports multi-word values until end of line
-  const directiveRegex = /\/\/\s*@vibe:(\w+)\s+(.+?)$/gm;
+  const directiveRegex = new RegExp(`${escapedPrefix}\\s*@vibe:(\\w+)\\s+(.+?)$`, 'gm');
 
   let match;
   while ((match = directiveRegex.exec(content)) !== null) {

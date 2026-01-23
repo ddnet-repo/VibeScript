@@ -1,0 +1,20 @@
+-- @vibe:goal {{GOAL}}
+-- @vibe:touch {{TOUCH}}
+-- @vibe:inputs {{INPUTS}}
+-- @vibe:outputs {{OUTPUTS}}
+-- @vibe:constraints {{CONSTRAINTS}}
+-- @vibe:tests {{TESTS}}
+-- @vibe:risk {{RISK}}
+-- @vibe:rollback {{ROLLBACK}}
+--
+-- Created: {{DATE}}
+-- ---
+
+--- {{GOAL}}
+local function {{FUNCTION_NAME}}()
+  error("Not implemented")
+end
+
+return {
+  {{FUNCTION_NAME}} = {{FUNCTION_NAME}}
+}

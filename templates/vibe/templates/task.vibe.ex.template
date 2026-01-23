@@ -1,0 +1,21 @@
+# @vibe:goal {{GOAL}}
+# @vibe:touch {{TOUCH}}
+# @vibe:inputs {{INPUTS}}
+# @vibe:outputs {{OUTPUTS}}
+# @vibe:constraints {{CONSTRAINTS}}
+# @vibe:tests {{TESTS}}
+# @vibe:risk {{RISK}}
+# @vibe:rollback {{ROLLBACK}}
+#
+# Created: {{DATE}}
+# ---
+
+defmodule {{MODULE_NAME}} do
+  @moduledoc """
+  {{GOAL}}
+  """
+
+  def {{FUNCTION_NAME}} do
+    raise "Not implemented"
+  end
+end

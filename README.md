@@ -1,12 +1,12 @@
 # VibeScript
 
-**Governance tooling for AI-assisted coding in TypeScript/JavaScript projects.**
+**Governance tooling for AI-assisted coding across multiple programming languages.**
 
 Put guardrails on Claude, Copilot, and other AI coding assistants so they can't go rogue in your codebase.
 
 > *"Move fast and break things" is great until the AI takes it literally and breaks production. Again.*
 
-> **Language Support**: VibeScript is designed for **TypeScript and JavaScript** projects using Node.js. The governance files use `.vibe.ts` extensions and the tooling integrates with npm/pnpm workflows.
+> **Language Support**: VibeScript now supports **22+ programming languages** including TypeScript, JavaScript, Python, Ruby, Go, Rust, Elixir, Dart, Lua, Shell, Clojure, Haskell, Crystal, R, Julia, Zig, PHP, Java, C#, Swift, Kotlin, and Scala. The governance files use language-specific `.vibe.*` extensions (e.g., `.vibe.ts`, `.vibe.py`, `.vibe.rb`) with appropriate comment styles for each language.
 
 ---
 
@@ -120,7 +120,18 @@ When starting a coding session with Claude Code or similar, say:
 
 > "Before making any changes, read `.vibe/claude.instructions.md` and `.vibe/spec.md`. Follow the VibeScript governance rules. Run `pnpm vibe:check` before committing."
 
-**Step 3**: Enable branch protection in GitHub
+**Step 3**: Create vibe files in your language
+
+```bash
+# TypeScript/JavaScript
+pnpm vibescript task "implement user auth"  # Creates .vibe.ts
+
+# Python project? Create .vibe.py files
+# Ruby project? Create .vibe.rb files
+# Any of 22+ supported languages!
+```
+
+**Step 4**: Enable branch protection in GitHub
 
 Go to Settings → Branches → Add rule for `main`:
 - Require status checks to pass
@@ -147,19 +158,22 @@ After running `vibescript init`:
 
 ## File Ownership Model
 
-| Extension | Who Owns It | AI Rights |
-|-----------|-------------|-----------|
-| `*.vibe.ts` | AI-owned | Freely create, modify, delete |
-| `*.human.ts` | Human-owned | Cannot modify without explicit permission |
-| `*.lock.ts` | Contract files | Must include test changes |
-| `*.ts` | Unowned | Not governed (gradual adoption) |
+| Extension Pattern | Who Owns It | AI Rights |
+|-------------------|-------------|-----------|
+| `*.vibe.*` | AI-owned | Freely create, modify, delete |
+| `*.human.*` | Human-owned | Cannot modify without explicit permission |
+| `*.lock.*` | Contract files | Must include test changes |
+| Other files | Unowned | Not governed (gradual adoption) |
+
+**Supported Languages**: TypeScript (`.ts`), JavaScript (`.js`), Python (`.py`), Ruby (`.rb`), Go (`.go`), Rust (`.rs`), Elixir (`.ex`), Dart (`.dart`), Lua (`.lua`), Shell (`.sh`), Clojure (`.clj`), Haskell (`.hs`), Crystal (`.cr`), R (`.R`), Julia (`.jl`), Zig (`.zig`), PHP (`.php`), Java (`.java`), C# (`.cs`), Swift (`.swift`), Kotlin (`.kt`), and Scala (`.scala`).
 
 **You choose what to govern.** Existing code isn't affected until you opt in by renaming files or configuring ownership globs.
 
 ## The Directive System
 
-Every `.vibe.ts` file must declare its intent:
+Every vibe file must declare its intent with language-appropriate comment syntax:
 
+**TypeScript/JavaScript/Go/Rust/Dart/Zig/PHP/Java/C#/Swift/Kotlin/Scala:**
 ```typescript
 // @vibe:goal What this code accomplishes
 // @vibe:touch src/auth/**/*.ts, src/types/user.ts
@@ -173,6 +187,44 @@ Every `.vibe.ts` file must declare its intent:
 export function myFeature() {
   // Implementation
 }
+```
+
+**Python/Ruby/Shell/Elixir/Crystal/R/Julia:**
+```python
+# @vibe:goal What this code accomplishes
+# @vibe:touch src/auth/**/*.py, src/types/user.py
+# @vibe:inputs What data/context is needed
+# @vibe:outputs What this produces
+# @vibe:constraints Limitations and requirements
+# @vibe:tests How to verify correctness
+# @vibe:risk low|medium|high
+# @vibe:rollback How to undo changes
+
+def my_feature():
+    # Implementation
+    pass
+```
+
+**Lua/Haskell:**
+```lua
+-- @vibe:goal What this code accomplishes
+-- @vibe:touch src/auth/**/*.lua
+-- (other directives...)
+
+function myFeature()
+  -- Implementation
+end
+```
+
+**Clojure:**
+```clojure
+; @vibe:goal What this code accomplishes
+; @vibe:touch src/auth/**/*.clj
+; (other directives...)
+
+(defn my-feature []
+  ; Implementation
+  )
 ```
 
 The `@vibe:touch` directive is critical: it declares which files the AI is *allowed* to modify. If the AI touches files not in this list, the check fails.

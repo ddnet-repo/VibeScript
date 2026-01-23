@@ -5,6 +5,7 @@ import { getBaseRef, getChangedFiles } from './git-utils.js';
 import { parseDirectives } from './directive-parser.js';
 import { matchesAnyGlob, findMatchingGlob } from './glob-matcher.js';
 import { createReport, writeReport, printReport, type Violation } from './report.js';
+import { isTestFile } from './language-config.js';
 
 export interface OwnershipConfig {
   ai_owned_globs: string[];
@@ -54,11 +55,7 @@ function getFileOwnership(
   return 'unowned';
 }
 
-function isTestFile(file: string): boolean {
-  return file.endsWith('.test.ts') || file.endsWith('.spec.ts') ||
-         file.endsWith('.test.js') || file.endsWith('.spec.js') ||
-         file.includes('__tests__/');
-}
+// Removed isTestFile function - now imported from language-config.ts
 
 export async function runVibeGuard(baseRefOverride?: string): Promise<number> {
   const cwd = process.cwd();
@@ -128,7 +125,7 @@ export async function runVibeGuard(baseRefOverride?: string): Promise<number> {
         details:
           `FIX: Either:\n` +
           `  1. Add to guard_exempt_globs in .vibe/ownership.json (for docs/config)\n` +
-          `  2. Rename to *.vibe.ts (AI-owned), *.human.ts, or *.lock.ts\n` +
+          `  2. Rename with .vibe extension (e.g., .vibe.ts, .vibe.py, .vibe.rb)\n` +
           `  3. Add a matching pattern to ai_owned_globs`,
       });
       continue;
