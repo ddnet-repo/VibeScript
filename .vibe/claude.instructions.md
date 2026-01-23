@@ -183,3 +183,23 @@ Options:
 
 Which would you prefer?
 ```
+
+---
+
+## Development Patterns
+
+VibeScript defines governance (what/where you can modify). Your project may also define **development patterns** (how to write code).
+
+Check for these optional pattern files:
+- `docs/development-patterns.md` - Reference guide of common patterns (YAGNI, DRY, SOLID, testing, etc.)
+- `docs/tasking-claude.md` - Quick start templates for applying patterns
+- `.vibe/claude-context.md` - Project-specific pattern configuration
+
+If these files exist, follow the patterns specified within them. They define:
+- Code organization and architecture
+- Testing strategies and coverage requirements
+- Documentation standards
+- Error handling approaches
+- Commit and change scope preferences
+
+When patterns conflict with VibeScript governance, governance wins. When uncertain, ask the user.

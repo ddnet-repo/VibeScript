@@ -1,0 +1,230 @@
+# Claude Context Template
+
+**Purpose**: Customize this template with your preferred development patterns and provide it to Claude at the start of a project or task. This creates consistent behavior across AI coding sessions.
+
+---
+
+## Project Information
+
+**Project Name**: `{{PROJECT_NAME}}`
+
+**Technology Stack**: `{{TECH_STACK}}`
+
+**Project Phase**: `[ ] Prototype  [ ] MVP  [ ] Production  [ ] Maintenance`
+
+---
+
+## Selected Development Patterns
+
+Reference patterns from `development-patterns.md`. Check boxes to indicate which patterns apply:
+
+### Core Philosophy
+
+- [ ] **YAGNI**: `[ ] Strict  [ ] Moderate  [ ] Relaxed`
+- [ ] **DRY**: `[ ] Strict  [ ] Moderate  [ ] Relaxed`
+- [ ] **SOLID**: `[ ] Full SOLID  [ ] Pragmatic  [ ] Minimal OOP`
+
+### Code Organization
+
+- [ ] **Module Structure**: `[ ] Domain-Driven  [ ] Layer-Based  [ ] Feature-Based`
+- [ ] **Naming**: `[ ] Verbose  [ ] Balanced  [ ] Terse`
+
+### Testing Approach
+
+- [ ] **Method**: `[ ] Strict TDD  [ ] Test-After  [ ] Critical-Path Only`
+- [ ] **Coverage**: `[ ] High (80%+)  [ ] Pragmatic (60%+)  [ ] Smoke Tests`
+
+### Error Handling
+
+- [ ] **Strategy**: `[ ] Fail-Fast  [ ] Graceful Degradation  [ ] Result Types`
+
+### Documentation
+
+- [ ] **Level**: `[ ] Full JSDoc  [ ] Public APIs Only  [ ] Self-Documenting  [ ] README-Driven`
+
+### Performance
+
+- [ ] **Strategy**: `[ ] Avoid Premature  [ ] Proactive  [ ] Performance-Critical`
+
+### Security
+
+- [ ] **Validation**: `[ ] Strict  [ ] Standard  [ ] Basic`
+- [ ] **Auth/Authz**: `[ ] Defense in Depth  [ ] Standard Checks  [ ] Basic`
+
+### Commit Style
+
+- [ ] **Size**: `[ ] Atomic  [ ] Feature-Based  [ ] As Needed`
+- [ ] **Scope**: `[ ] Surgical  [ ] Opportunistic Improvements`
+
+---
+
+## Custom Instructions
+
+Add any project-specific patterns, conventions, or requirements:
+
+```
+{{CUSTOM_INSTRUCTIONS}}
+```
+
+---
+
+## Architectural Constraints
+
+List any architectural decisions or constraints Claude must follow:
+
+- `{{CONSTRAINT_1}}`
+- `{{CONSTRAINT_2}}`
+- `{{CONSTRAINT_3}}`
+
+---
+
+## Things to Avoid
+
+List specific anti-patterns or approaches to avoid in this project:
+
+- ❌ `{{AVOID_1}}`
+- ❌ `{{AVOID_2}}`
+- ❌ `{{AVOID_3}}`
+
+---
+
+## Project-Specific Vocabulary
+
+Define domain-specific terms and concepts:
+
+- **`{{TERM_1}}`**: `{{DEFINITION_1}}`
+- **`{{TERM_2}}`**: `{{DEFINITION_2}}`
+- **`{{TERM_3}}`**: `{{DEFINITION_3}}`
+
+---
+
+## Integration with VibeScript
+
+VibeScript governance is `[ ] Enabled  [ ] Disabled` for this project.
+
+If enabled, Claude must:
+1. Read `.vibe/claude.instructions.md` before making changes
+2. Create `.vibe.*` files with all 13 required directives (goal, touch, inputs, outputs, constraints, tests, risk, rollback, security, performance, dependencies, observability, breaking)
+3. Declare all touched files in `@vibe:touch` directives
+4. Run `vibe:check` and `vibe:guard` before committing
+5. Follow file ownership rules
+
+**Note**: VibeScript now requires 5 additional production-focused directives. See `docs/development-patterns.md` for guidance on how to fill these out at different pattern levels.
+
+---
+
+## Quick Reference
+
+**One-Line Summary**: 
+```
+{{PATTERN_SUMMARY}}
+```
+
+Example: `"Strict YAGNI, Moderate DRY, TDD with 80% coverage, Full JSDoc, Fail-fast errors, Atomic commits"`
+
+---
+
+## Example Filled Template
+
+Here's an example of how to fill this template:
+
+### Project Information
+- **Project Name**: E-Commerce API
+- **Technology Stack**: Node.js, TypeScript, PostgreSQL, Express
+- **Project Phase**: ✓ Production
+
+### Selected Development Patterns
+
+**Core Philosophy**:
+- ✓ YAGNI: Moderate
+- ✓ DRY: Moderate  
+- ✓ SOLID: Pragmatic
+
+**Testing Approach**:
+- ✓ Method: Test-After Development
+- ✓ Coverage: Pragmatic (60%+)
+
+**Error Handling**:
+- ✓ Strategy: Fail-Fast at boundaries, graceful degradation internally
+
+**Documentation**:
+- ✓ Level: Full JSDoc for public APIs, inline comments for complex logic
+
+**Commit Style**:
+- ✓ Size: Atomic
+- ✓ Scope: Surgical
+
+**Production Directives**:
+- ✓ Security: Defense in depth - validate all inputs, require auth, prevent injection
+- ✓ Performance: Document complexity and scale requirements
+- ✓ Dependencies: List all external services and version requirements
+- ✓ Observability: Include logging, metrics, and traces for debugging
+- ✓ Breaking: Explicitly state breaking changes or "none"
+
+### Custom Instructions
+```
+- All database queries must use the repository pattern
+- API responses must match the JSON:API specification
+- All external API calls must have retry logic with exponential backoff
+- Use Zod for runtime validation of all inputs
+- Prefer functional programming style where appropriate
+```
+
+### Architectural Constraints
+- No business logic in controllers (must be in services)
+- Database schema changes require migration files
+- All secrets must be in environment variables, never hardcoded
+
+### Things to Avoid
+- ❌ Don't use `any` type in TypeScript
+- ❌ Don't query database from controllers
+- ❌ Don't add dependencies without checking for vulnerabilities
+
+### Project-Specific Vocabulary
+- **SKU**: Stock Keeping Unit, unique product identifier
+- **Cart**: User's shopping cart, stored in Redis with 24hr TTL
+- **Fulfillment**: Process of packing and shipping orders
+
+---
+
+## Usage Instructions
+
+1. **Fill out this template** with your project's patterns and constraints
+2. **Save it** as `.vibe/claude-context.md` in your project
+3. **Reference it** when tasking Claude:
+
+   ```
+   "Claude, read .vibe/claude-context.md for this project's 
+   development patterns, then implement the user registration feature."
+   ```
+
+4. **Update it** as patterns evolve or as you learn what works
+
+---
+
+## Template for Copy-Paste
+
+```markdown
+# Project Development Context
+
+## Quick Instructions
+Claude, use: {{YAGNI_LEVEL}} YAGNI, {{DRY_LEVEL}} DRY, {{TEST_METHOD}}, 
+{{DOC_LEVEL}} docs, {{ERROR_STRATEGY}} errors, {{COMMIT_STYLE}} commits
+
+## Custom Rules
+- {{RULE_1}}
+- {{RULE_2}}
+- {{RULE_3}}
+
+## Must Avoid
+- ❌ {{AVOID_1}}
+- ❌ {{AVOID_2}}
+
+## VibeScript
+Read .vibe/claude.instructions.md and follow all governance rules.
+```
+
+---
+
+**Version**: 1.0.0
+**Last Updated**: 2026-01-23
