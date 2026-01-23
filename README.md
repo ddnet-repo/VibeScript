@@ -257,8 +257,10 @@ VibeScript tells Claude **what** and **where** it can modify. But you might also
 
 We've created a comprehensive recipe of development patterns (YAGNI, DRY, SOLID, testing strategies, etc.) that you can mix and match when tasking Claude:
 
+- **[Quick Reference Card](docs/patterns-quick-reference.md)** - Print-friendly cheat sheet for tasking Claude
 - **[Development Patterns Reference](docs/development-patterns.md)** - Complete guide to common patterns with strict/moderate/relaxed levels
 - **[Tasking Claude Guide](docs/tasking-claude.md)** - Quick start templates for assigning work to Claude
+- **[Example Setup](docs/example-setup.md)** - Real-world example of setting up patterns for an e-commerce API
 - **[Claude Context Template](.vibe/templates/claude-context.md.template)** - Customizable template for your project's patterns
 
 **Example usage:**
