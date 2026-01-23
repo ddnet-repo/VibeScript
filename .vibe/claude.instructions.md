@@ -41,7 +41,26 @@ Before modifying any `.vibe.ts` file, ensure these directives are present:
 // @vibe:tests [How to verify]
 // @vibe:risk [low|medium|high]
 // @vibe:rollback [How to undo]
+// @vibe:security [Security implications and mitigations]
+// @vibe:performance [Performance characteristics]
+// @vibe:dependencies [External dependencies]
+// @vibe:observability [Monitoring and debugging]
+// @vibe:breaking [Breaking changes or "none"]
 ```
+
+**The New Production Directives:**
+
+These five directives prevent you from shipping code that works but has hidden problems:
+
+- **@vibe:security**: Think like an attacker. What could go wrong? Document input validation, auth requirements, rate limiting, SQL injection prevention. If you write "none", think twice.
+
+- **@vibe:performance**: Will this scale? Document complexity, database query patterns, caching, expected load. Don't ship O(n²) loops on production tables.
+
+- **@vibe:dependencies**: What breaks if Redis is down? Document external services, version requirements, network dependencies. Use "none" only for pure functions.
+
+- **@vibe:observability**: The on-call engineer debugging this at 3 AM will either thank you or curse you. Document logging, metrics, tracing, error handling.
+
+- **@vibe:breaking**: Did you just rename a function 47 microservices depend on? Document API changes, removed fields, signature changes. Use "none" if backward compatible.
 
 ### 3. Touch Declaration
 
