@@ -106,15 +106,9 @@ export function validateDirectives(filePath: string): {
     errors.push(`Invalid risk level: ${directives.risk}. Must be low, medium, or high.`);
   }
 
-  // Validate breaking changes declaration
-  if (directives.breaking) {
-    const breakingLower = directives.breaking.toLowerCase();
-    if (!['yes', 'no', 'none'].includes(breakingLower) && breakingLower.trim() !== '') {
-      // Allow detailed descriptions, just not empty
-      if (breakingLower.trim() === '') {
-        errors.push('Breaking changes directive cannot be empty. Use "none" if no breaking changes.');
-      }
-    }
+  // Validate breaking changes declaration (allow any non-empty value)
+  if (directives.breaking && directives.breaking.trim() === '') {
+    errors.push('Breaking changes directive cannot be empty. Use "none" if no breaking changes.');
   }
 
   // Validate touch is not empty

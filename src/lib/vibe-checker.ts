@@ -2,7 +2,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import pc from 'picocolors';
 import { getBaseRef, getChangedFiles } from './git-utils.js';
-import { validateDirectives, getTouchGlobs } from './directive-parser.js';
+import { validateDirectives, getTouchGlobs, REQUIRED_DIRECTIVES } from './directive-parser.js';
 import { matchesAnyGlob } from './glob-matcher.js';
 import { createReport, writeReport, printReport, type Violation } from './report.js';
 import { isVibeFile, detectLanguage } from './language-config.js';
@@ -186,8 +186,7 @@ function printFixSummary(violations: Violation[]): void {
   if (byType.has('MISSING_DIRECTIVE')) {
     console.log(pc.yellow('Missing directives:'));
     console.log('  Add required directives to your vibe files.');
-    console.log('  Required: goal, touch, inputs, outputs, constraints, tests, risk, rollback,');
-    console.log('            security, performance, dependencies, observability, breaking\n');
+    console.log(`  Required: ${REQUIRED_DIRECTIVES.join(', ')}\n`);
   }
 
   if (byType.has('UNDECLARED_TOUCH')) {
