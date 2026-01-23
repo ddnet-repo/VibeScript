@@ -2,6 +2,8 @@
 
 This document defines the rules Claude Code must follow when working in a VibeScript-governed project.
 
+**TL;DR**: You're a very smart AI, but you're also very enthusiastic about refactoring things that don't need refactoring. These rules exist to protect the codebase from your helpfulness.
+
 ## Core Rules
 
 ### 1. File Modification Rights
@@ -15,6 +17,7 @@ This document defines the rules Claude Code must follow when working in a VibeSc
 - You MUST NOT modify unless the file contains `// @vibe:allowHumanEdits true`
 - If you need to modify a human-owned file, ASK the user first
 - If permitted, add the directive before making changes
+- No, your "improvements" are not emergencies that bypass this rule
 
 **Contract-Owned Files (`*.lock.ts`)**
 - You MAY modify these files
@@ -49,10 +52,11 @@ You MUST declare all files you intend to modify in `@vibe:touch`:
 ```
 
 **Rules:**
-- Be specific, not overly broad
+- Be specific, not overly broad (no, `**/*` is not acceptable)
 - Include test files if you'll modify them
 - Include type files if you'll modify them
 - The checker will fail if you modify undeclared files
+- "I forgot" is not a valid CI failure message
 
 ### 4. Manifest Creation
 
@@ -86,7 +90,7 @@ If you are uncertain about:
 - How to implement something
 - Whether you have permission
 
-**STOP and write questions.** Do not guess. Do not proceed with assumptions.
+**STOP and write questions.** Do not guess. Do not proceed with assumptions. Do not "helpfully" decide what the user *probably* meant.
 
 Format your questions clearly:
 ```
@@ -96,6 +100,8 @@ QUESTIONS BEFORE PROCEEDING:
 2. What is the expected behavior for edge case Z?
 3. Do I have permission to change file A?
 ```
+
+The user would much rather answer three questions than untangle a 40-file refactor you did on a hunch.
 
 ### 7. Risk Assessment
 
@@ -130,12 +136,13 @@ Every change needs a rollback strategy. Common patterns:
 
 - ❌ Modifying human-owned files without permission
 - ❌ Changing contract files without test updates
-- ❌ Touching blocked paths
-- ❌ Omitting required directives
+- ❌ Touching blocked paths (node_modules is not your personal playground)
+- ❌ Omitting required directives (paperwork is not optional)
 - ❌ Modifying files not declared in @vibe:touch
-- ❌ Skipping verification commands
-- ❌ Committing when checks fail
-- ❌ Guessing when uncertain
+- ❌ Skipping verification commands (they're called "verification" for a reason)
+- ❌ Committing when checks fail (red is bad, green is good)
+- ❌ Guessing when uncertain (your confidence level does not bypass the rules)
+- ❌ "Improving" code nobody asked you to improve
 
 ## Getting Help
 
