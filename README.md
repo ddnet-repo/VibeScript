@@ -251,6 +251,26 @@ The vibes are nice. The scripts make sure nobody gets hurt.
 
 > *"If we're going to hand the codebase to AI, we should at least make them suffer through code review first."*
 
+## Development Patterns & Best Practices
+
+VibeScript tells Claude **what** and **where** it can modify. But you might also want to control **how** it writes code.
+
+We've created a comprehensive recipe of development patterns (YAGNI, DRY, SOLID, testing strategies, etc.) that you can mix and match when tasking Claude:
+
+- **[Development Patterns Reference](docs/development-patterns.md)** - Complete guide to common patterns with strict/moderate/relaxed levels
+- **[Tasking Claude Guide](docs/tasking-claude.md)** - Quick start templates for assigning work to Claude
+- **[Claude Context Template](.vibe/templates/claude-context.md.template)** - Customizable template for your project's patterns
+
+**Example usage:**
+```
+"Claude, implement user authentication using:
+- VibeScript governance (read .vibe/claude.instructions.md)
+- Development patterns: Production Ready template (see docs/development-patterns.md)
+- YAGNI: Moderate, DRY: Moderate, Testing: TDD with 80% coverage"
+```
+
+These patterns let you define development philosophy that's consistent across tasks and team members (human or AI).
+
 ## For Humans Setting This Up
 
 If you're a human reading this and want to install VibeScript for your AI assistant:
@@ -261,6 +281,12 @@ pnpm vibescript init
 ```
 
 Then tell Claude: *"Before making any changes, read `.vibe/claude.instructions.md` and follow the VibeScript governance rules."*
+
+For consistent code style and patterns, also set up your development patterns:
+```
+"Claude, also read docs/development-patterns.md and apply the 'Production Ready' 
+template (or customize .vibe/templates/claude-context.md.template for your preferences)."
+```
 
 ## License
 
