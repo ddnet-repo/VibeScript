@@ -334,6 +334,11 @@ export function validateToken(token: string): Claims {
 // @vibe:tests add.test.ts
 // @vibe:risk low
 // @vibe:rollback Revert commit
+// @vibe:security none - pure calculation, no user input
+// @vibe:performance O(1) constant time
+// @vibe:dependencies none - pure TypeScript
+// @vibe:observability none - deterministic function
+// @vibe:breaking none - new functionality
 
 export function add(a: number, b: number): number {
   return a + b;
@@ -351,6 +356,11 @@ export function add(a: number, b: number): number {
 // @vibe:tests rate-limit.test.ts covers normal/exceeded/reset scenarios
 // @vibe:risk medium
 // @vibe:rollback Revert commit, existing requests unaffected
+// @vibe:security Rate limiting prevents DoS attacks, validates IP addresses, no authentication bypass
+// @vibe:performance Redis SET with TTL is O(1), minimal latency overhead ~5ms, handles 10k req/sec
+// @vibe:dependencies Redis 6.0+ for atomic operations, requires network access to Redis
+// @vibe:observability Logs rate limit exceeded events with IP and endpoint, emits rate_limit_exceeded_total metric
+// @vibe:breaking none - new middleware, no existing dependencies
 //
 // Created: 2024-01-15
 // ---
@@ -401,3 +411,6 @@ async function checkRateLimit(
 4. **Optimistic risk assessment** - Be honest about complexity
 5. **No rollback plan** - Always have a way to undo
 6. **Multiple responsibilities** - Keep files focused
+7. **Writing "none" for security without thinking** - Consider if there really are no security implications
+8. **Ignoring performance** - Document complexity and expected scale
+9. **Not considering observability** - Future debugging depends on this

@@ -1,0 +1,31 @@
+════════════════════════════════════════════════════════════
+VIBESCRIPT VIBE-CHECKER REPORT
+════════════════════════════════════════════════════════════
+
+Timestamp: 2026-01-23T06:53:33.619Z
+Base Ref:  HEAD~1
+Status:    FAILED ✗
+
+Changed Files (1):
+  - test-incomplete.vibe.ts
+
+────────────────────────────────────────────────────────────
+VIOLATIONS (1)
+────────────────────────────────────────────────────────────
+
+[MISSING_DIRECTIVE] test-incomplete.vibe.ts
+  → Missing required directives: inputs, outputs, constraints, tests, risk, rollback, security, performance, dependencies, observability, breaking
+    FIX: Add these directives to the top of the file:
+  // @vibe:inputs <value>
+  // @vibe:outputs <value>
+  // @vibe:constraints <value>
+  // @vibe:tests <value>
+  // @vibe:risk <value>
+  // @vibe:rollback <value>
+  // @vibe:security <value>
+  // @vibe:performance <value>
+  // @vibe:dependencies <value>
+  // @vibe:observability <value>
+  // @vibe:breaking <value>
+
+════════════════════════════════════════════════════════════
