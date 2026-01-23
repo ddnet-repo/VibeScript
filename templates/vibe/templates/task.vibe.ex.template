@@ -10,7 +10,7 @@
 # Created: {{DATE}}
 # ---
 
-defmodule {{MODULE_NAME}} do
+defmodule VibeModule do
   @moduledoc """
   {{GOAL}}
   """
