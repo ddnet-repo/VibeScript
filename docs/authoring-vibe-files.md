@@ -15,6 +15,11 @@ Every `.vibe.ts` file should follow this structure:
 // @vibe:tests How to verify correctness
 // @vibe:risk low|medium|high
 // @vibe:rollback How to undo
+// @vibe:security Security implications and mitigations
+// @vibe:performance Performance characteristics
+// @vibe:dependencies External dependencies
+// @vibe:observability How to monitor and debug
+// @vibe:breaking Breaking changes or "none"
 //
 // Created: YYYY-MM-DD
 // ---
@@ -155,6 +160,90 @@ Document how to undo the change if something goes wrong.
 ```typescript
 // @vibe:rollback git revert
 // @vibe:rollback Ask John
+```
+
+### @vibe:security
+
+Document security considerations - what could go wrong and how you're preventing it.
+
+**Good:**
+```typescript
+// @vibe:security Validates all input with zod schema, requires Bearer token auth, SQL injection prevented via parameterized queries, rate-limited at 100 req/min
+// @vibe:security User input sanitized, HTTPS only, credentials never logged
+// @vibe:security none - pure calculation function, no user input or external data
+```
+
+**Bad:**
+```typescript
+// @vibe:security It's secure
+// @vibe:security Should be fine
+```
+
+### @vibe:performance
+
+Document performance characteristics - complexity, scalability, resource usage.
+
+**Good:**
+```typescript
+// @vibe:performance O(1) hash lookup, uses indexed database query, 50ms p99 latency, handles 10k req/sec
+// @vibe:performance Cached for 5 minutes, lazy-loaded, paginated results
+// @vibe:performance O(n) single pass, < 1MB memory for typical datasets
+```
+
+**Bad:**
+```typescript
+// @vibe:performance Fast enough
+// @vibe:performance Should scale
+```
+
+### @vibe:dependencies
+
+List external dependencies and version requirements. Helps diagnose deployment issues.
+
+**Good:**
+```typescript
+// @vibe:dependencies Redis 6.0+ for caching, PostgreSQL 13+ with pg_trgm extension, @auth/core@^2.0, requires internet access for OAuth
+// @vibe:dependencies none - pure TypeScript, no external services
+```
+
+**Bad:**
+```typescript
+// @vibe:dependencies Uses Redis
+// @vibe:dependencies See package.json
+```
+
+### @vibe:observability
+
+How will the on-call engineer debug this at 3 AM?
+
+**Good:**
+```typescript
+// @vibe:observability Logs errors with user_id and request_id, emits auth_duration_ms and auth_failure_count metrics, adds X-Trace-Id header, structured logging enabled
+// @vibe:observability Emits database_query_duration_ms metric, logs slow queries > 100ms
+// @vibe:observability none - deterministic pure function, nothing to monitor
+```
+
+**Bad:**
+```typescript
+// @vibe:observability Has logging
+// @vibe:observability Will add if needed
+```
+
+### @vibe:breaking
+
+Explicitly call out API/interface changes that break existing code.
+
+**Good:**
+```typescript
+// @vibe:breaking none - backward compatible
+// @vibe:breaking Renamed getUserById() to getUser(), removed legacy_auth field from User type, changed response status from 401 to 403
+// @vibe:breaking Changed function signature: added required 'options' parameter
+```
+
+**Bad:**
+```typescript
+// @vibe:breaking Maybe?
+// @vibe:breaking Improved API
 ```
 
 ## Glob Pattern Reference

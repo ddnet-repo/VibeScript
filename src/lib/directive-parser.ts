@@ -10,6 +10,11 @@ export interface VibeDirectives {
   tests?: string;
   risk?: string;
   rollback?: string;
+  security?: string;
+  performance?: string;
+  dependencies?: string;
+  observability?: string;
+  breaking?: string;
   allowHumanEdits?: boolean;
   [key: string]: string | boolean | undefined;
 }
@@ -23,6 +28,11 @@ export const REQUIRED_DIRECTIVES = [
   'tests',
   'risk',
   'rollback',
+  'security',
+  'performance',
+  'dependencies',
+  'observability',
+  'breaking',
 ] as const;
 
 export function parseDirectives(filePath: string): VibeDirectives {
@@ -94,6 +104,17 @@ export function validateDirectives(filePath: string): {
   // Validate risk level
   if (directives.risk && !['low', 'medium', 'high'].includes(directives.risk.toLowerCase())) {
     errors.push(`Invalid risk level: ${directives.risk}. Must be low, medium, or high.`);
+  }
+
+  // Validate breaking changes declaration
+  if (directives.breaking) {
+    const breakingLower = directives.breaking.toLowerCase();
+    if (!['yes', 'no', 'none'].includes(breakingLower) && breakingLower.trim() !== '') {
+      // Allow detailed descriptions, just not empty
+      if (breakingLower.trim() === '') {
+        errors.push('Breaking changes directive cannot be empty. Use "none" if no breaking changes.');
+      }
+    }
   }
 
   // Validate touch is not empty

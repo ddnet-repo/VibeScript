@@ -186,7 +186,8 @@ function printFixSummary(violations: Violation[]): void {
   if (byType.has('MISSING_DIRECTIVE')) {
     console.log(pc.yellow('Missing directives:'));
     console.log('  Add required directives to your vibe files.');
-    console.log('  Required: goal, touch, inputs, outputs, constraints, tests, risk, rollback\n');
+    console.log('  Required: goal, touch, inputs, outputs, constraints, tests, risk, rollback,');
+    console.log('            security, performance, dependencies, observability, breaking\n');
   }
 
   if (byType.has('UNDECLARED_TOUCH')) {
