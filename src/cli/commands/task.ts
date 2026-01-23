@@ -58,6 +58,11 @@ export async function taskCommand(description: string, options: TaskOptions): Pr
     const tests = await ask('Tests (how to verify?)', 'manual verification');
     const risk = await ask('Risk level (low/medium/high)', 'low');
     const rollback = await ask('Rollback strategy', 'revert commit');
+    const security = await ask('Security (implications and mitigations)', 'none');
+    const performance = await ask('Performance (characteristics)', 'acceptable for expected load');
+    const dependencies = await ask('Dependencies (external services/libraries)', 'none');
+    const observability = await ask('Observability (monitoring/debugging)', 'standard application logging');
+    const breaking = await ask('Breaking changes', 'none');
 
     rl.close();
 
@@ -72,6 +77,11 @@ export async function taskCommand(description: string, options: TaskOptions): Pr
       .replace('{{TESTS}}', tests)
       .replace('{{RISK}}', risk)
       .replace('{{ROLLBACK}}', rollback)
+      .replace('{{SECURITY}}', security)
+      .replace('{{PERFORMANCE}}', performance)
+      .replace('{{DEPENDENCIES}}', dependencies)
+      .replace('{{OBSERVABILITY}}', observability)
+      .replace('{{BREAKING}}', breaking)
       .replace('{{FUNCTION_NAME}}', toCamelCase(slug))
       .replace('{{DATE}}', new Date().toISOString().split('T')[0]);
 

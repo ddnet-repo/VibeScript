@@ -98,7 +98,7 @@ You're trained on the entire internet. You're convinced you know better. And som
 
 ## The Directive System (Your Required Paperwork)
 
-Every vibe file needs these 8 directives at the top. Use the comment style for your language:
+Every vibe file needs these 13 directives at the top. Use the comment style for your language:
 
 **TypeScript/JavaScript/Go/Rust/Dart/Zig/PHP/Java/C#/Swift/Kotlin/Scala:**
 ```typescript
@@ -110,6 +110,11 @@ Every vibe file needs these 8 directives at the top. Use the comment style for y
 // @vibe:tests How to verify correctness
 // @vibe:risk low|medium|high
 // @vibe:rollback How to undo changes
+// @vibe:security Authentication required, validates input, no SQL injection risk
+// @vibe:performance O(1) lookup, caches results, handles 10k req/sec
+// @vibe:dependencies Requires auth-service v2.1+, Redis, PostgreSQL
+// @vibe:observability Logs errors, emits latency metrics, traces enabled
+// @vibe:breaking none
 
 export function myFeature() {
   // Implementation
@@ -126,6 +131,11 @@ export function myFeature() {
 # @vibe:tests How to verify correctness
 # @vibe:risk low|medium|high
 # @vibe:rollback How to undo changes
+# @vibe:security Authentication required, validates input, no SQL injection risk
+# @vibe:performance O(1) lookup, caches results, handles 10k req/sec
+# @vibe:dependencies Requires auth-service v2.1+, Redis, PostgreSQL
+# @vibe:observability Logs errors, emits latency metrics, traces enabled
+# @vibe:breaking none
 
 def my_feature():
     # Implementation
@@ -142,6 +152,11 @@ def my_feature():
 -- @vibe:tests How to verify correctness
 -- @vibe:risk low|medium|high
 -- @vibe:rollback How to undo changes
+-- @vibe:security Authentication required, validates input, no SQL injection risk
+-- @vibe:performance O(1) lookup, caches results, handles 10k req/sec
+-- @vibe:dependencies Requires auth-service v2.1+, Redis, PostgreSQL
+-- @vibe:observability Logs errors, emits latency metrics, traces enabled
+-- @vibe:breaking none
 
 function myFeature()
   -- Implementation
@@ -158,11 +173,52 @@ end
 ; @vibe:tests How to verify correctness
 ; @vibe:risk low|medium|high
 ; @vibe:rollback How to undo changes
+; @vibe:security Authentication required, validates input, no SQL injection risk
+; @vibe:performance O(1) lookup, caches results, handles 10k req/sec
+; @vibe:dependencies Requires auth-service v2.1+, Redis, PostgreSQL
+; @vibe:observability Logs errors, emits latency metrics, traces enabled
+; @vibe:breaking none
 
 (defn my-feature []
   ; Implementation
   )
 ```
+
+### Why These Actually Matter
+
+The original 8 directives kept you from going rogue. These 5 new ones keep you from shipping code that works but sucks:
+
+**@vibe:security** - Security implications and mitigations
+- What you're thinking: "This code works!"
+- What you should be thinking: "Can an attacker exploit this?"
+- Example: `Validates all input, escapes SQL, requires authentication, rate-limited`
+- Use "none" if no security considerations, but think twice before using "none"
+
+**@vibe:performance** - Performance characteristics and requirements
+- What you're thinking: "It returns the right data!"
+- What you should be thinking: "Will it still work with 1M rows?"
+- Example: `O(n log n) algorithm, indexed queries, 100ms p99 latency target`
+- Prevents you from "accidentally" writing O(n²) nested loops on production tables
+
+**@vibe:dependencies** - External services, libraries, and version requirements
+- What you're thinking: "I imported what I needed!"
+- What you should be thinking: "What breaks if these aren't available?"
+- Example: `Redis 6.0+, PostgreSQL, @auth/core@2.x, requires network access`
+- Use "none" for pure functions with no external dependencies
+
+**@vibe:observability** - How to monitor, debug, and troubleshoot
+- What you're thinking: "I'll add logging if there's a problem!"
+- What you should be thinking: "How will the on-call engineer debug this at 3 AM?"
+- Example: `Logs all errors with user_id, emits auth_duration_ms metric, trace_id in headers`
+- If you write "none", you're telling future you "good luck debugging in prod"
+
+**@vibe:breaking** - API/interface changes that break existing code
+- What you're thinking: "This is a better design!"
+- What you should be thinking: "Am I about to break 47 services that depend on this?"
+- Example: `Renamed getUserById to getUser, removed deprecated legacy_auth field`
+- Use "none" if backward compatible, otherwise list what breaks
+
+**Pro tip**: If you write "none" for security, performance, or observability, you're either working on a trivial feature or lying to yourself. The framework won't stop you, but your future self will curse you.
 
 ### The Critical One: @vibe:touch
 
