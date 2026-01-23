@@ -7,6 +7,11 @@
 # @vibe:tests {{TESTS}}
 # @vibe:risk {{RISK}}
 # @vibe:rollback {{ROLLBACK}}
+# @vibe:security {{SECURITY}}
+# @vibe:performance {{PERFORMANCE}}
+# @vibe:dependencies {{DEPENDENCIES}}
+# @vibe:observability {{OBSERVABILITY}}
+# @vibe:breaking {{BREAKING}}
 #
 # Created: {{DATE}}
 # ---

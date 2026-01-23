@@ -38,6 +38,11 @@ Every `.vibe.ts` file MUST contain these directives:
 | `tests` | How to verify correctness | `// @vibe:tests Run auth.test.ts, verify session creation` |
 | `risk` | Risk level (low/medium/high) | `// @vibe:risk medium` |
 | `rollback` | How to undo changes | `// @vibe:rollback Revert commit, clear session store` |
+| `security` | Security implications and mitigations | `// @vibe:security Validates input, requires auth, rate-limited` |
+| `performance` | Performance characteristics | `// @vibe:performance O(1) lookup, handles 10k req/sec` |
+| `dependencies` | External services and libraries | `// @vibe:dependencies Redis 6.0+, PostgreSQL, auth-service v2.1+` |
+| `observability` | Monitoring and debugging approach | `// @vibe:observability Logs errors, emits latency metrics` |
+| `breaking` | Breaking changes or "none" | `// @vibe:breaking Renamed getUserById to getUser` |
 
 ### Optional Directives
 
