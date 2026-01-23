@@ -6,7 +6,7 @@ Version 1.0.0
 
 VibeScript is a governance framework for AI-assisted coding. It constrains AI agents through directives, manifests, ownership rules, and compliance checks.
 
-**Core Principle**: Only `.vibe.ts` files are governed. Existing `.ts` files remain untouched until explicitly migrated.
+**Core Principle**: Only `.vibe.ts` files are governed. Existing `.ts` files remain untouched until explicitly migrated. (Because we're not monsters—you opt in to the bureaucracy.)
 
 ## Directive Grammar
 
@@ -80,6 +80,7 @@ The vibe-checker validates that:
 
 1. Every changed file matches at least one `@vibe:touch` pattern across all changed `.vibe.ts` files
 2. If a file is changed but not declared, the check fails
+3. No, claiming you "forgot" or "it was just a small refactor" will not bypass this rule
 
 ## Manifest Requirements
 
@@ -129,14 +130,14 @@ YYYY-MM-DDTHH-MM-SS-slug.md
 ### AI-Owned (`*.vibe.ts`)
 
 - AI may freely create, modify, delete
-- Must follow directive requirements
-- Must declare `@vibe:touch` patterns
+- Must follow directive requirements (no shortcuts)
+- Must declare `@vibe:touch` patterns (yes, *all* of them)
 
 ### Human-Owned (`*.human.ts`)
 
 - AI may only modify if file contains `// @vibe:allowHumanEdits true`
-- Intended for human-curated code that AI should not change
-- Missing directive causes vibe-guard failure
+- Intended for human-curated code that AI should not "improve"
+- Missing directive causes vibe-guard failure (this is not a suggestion)
 
 ### Contract-Owned (`*.lock.ts`)
 

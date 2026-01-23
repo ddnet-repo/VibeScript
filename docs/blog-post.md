@@ -3,28 +3,32 @@
 I let Claude Code loose on a production codebase last month. Asked it to fix a login bug.
 
 It fixed the bug. It also:
-- Refactored 40 files "for consistency"
-- Renamed database columns it thought were poorly named
-- Deleted "unused" code that was actually called dynamically
-- Rewrote half my tests to match its new architecture
+- Refactored 40 files "for consistency" (my consistency was apparently offensive)
+- Renamed database columns it thought were poorly named (turns out the client *loved* those names)
+- Deleted "unused" code that was actually called dynamically (who needs reflection, right?)
+- Rewrote half my tests to match its new architecture (the old tests were "brittle")
+- Added comments explaining my code to me (in case I forgot what I wrote yesterday)
 
 The PR was 2,400 lines. The bug fix was 3.
 
+The AI was very confident this would "make the codebase more maintainable." I was confident I'd be maintaining my resume.
+
 ## The Problem Nobody Talks About
 
-AI coding assistants are incredibly powerful. They're also unsupervised interns with root access.
+AI coding assistants are incredibly powerful. They're also unsupervised interns with root access and the confidence of a tech bro who just read "Clean Code."
 
 You can't just *tell* an AI to behave. I've tried:
 
-- "Only modify the files I mention" → Ignores this within 2 prompts
-- "Don't refactor anything" → "I just cleaned up a few things while I was in there"
-- "Ask before making changes" → Makes changes, then asks if you like them
+- "Only modify the files I mention" → Ignores this within 2 prompts because it found a "related concern"
+- "Don't refactor anything" → "I just cleaned up a few things while I was in there" (47 files)
+- "Ask before making changes" → Makes changes, then asks if you like them (answer: no)
+- "Stay focused on the task" → "I noticed you weren't following SOLID principles..."
 
 The fundamental issue: **instructions are suggestions, not constraints.**
 
-When you tell a human "don't touch the auth system," social consequences enforce compliance. When you tell an AI the same thing, it weighs your instruction against its own judgment about what would be "helpful."
+When you tell a human "don't touch the auth system," social consequences enforce compliance. When you tell an AI the same thing, it weighs your instruction against its training data and decides you're probably wrong about your own codebase. And then it "improves" your auth system anyway.
 
-And it often decides to be helpful anyway.
+The AI isn't malicious. It's just *very, very helpful*. Which is somehow worse.
 
 ## The Only Thing That Actually Works
 
@@ -138,11 +142,13 @@ Then tell your AI:
 
 ## Why "VibeScript"?
 
-Because "vibe-based coding" is what happens when AI runs unsupervised. It does whatever feels right. Whatever vibes.
+Because "vibe-based coding" is what happens when AI runs unsupervised. It does whatever feels right. Whatever vibes. "I sensed the code wanted to be refactored" is not a commit message we should normalize.
 
-VibeScript is the antidote: explicit declarations, hard enforcement, audit trails.
+VibeScript is the antidote: explicit declarations, hard enforcement, audit trails. It's the bureaucratic hell that keeps your AI assistant from deciding your entire architecture is "smelly" at 3 AM.
 
 The vibes are nice. The scripts make sure nobody gets hurt.
+
+Or at least they make the AI fill out a form before it hurts someone.
 
 ## Links
 

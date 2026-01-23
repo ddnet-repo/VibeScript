@@ -1,7 +1,7 @@
 {
   "name": "@ddnet-repo/vibescript",
   "version": "1.0.0",
-  "description": "Governance tooling that constrains AI-assisted coding through directives, manifests, ownership rules, and compliance checks",
+  "description": "Enterprise governance framework for AI-assisted coding. Provides compliance controls, audit trails, and risk management for AI-generated code. Stop your AI coding assistant from going rogue in production.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -25,11 +25,16 @@
   "keywords": [
     "ai",
     "governance",
+    "compliance",
+    "audit",
+    "risk-management",
     "typescript",
     "claude",
+    "copilot",
+    "enterprise",
+    "security",
     "vibe",
-    "directives",
-    "compliance"
+    "directives"
   ],
   "author": "burtbyproxy <steve@datadigital.net>",
   "repository": {
