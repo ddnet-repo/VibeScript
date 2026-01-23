@@ -12,6 +12,15 @@ This guide shows you how to use the development patterns recipe when assigning t
 
 Together, they create consistent, high-quality AI-assisted development.
 
+**Important Update**: VibeScript now requires 13 directives (up from 8), including 5 new production-focused directives:
+- `@vibe:security` - Security implications and mitigations
+- `@vibe:performance` - Performance characteristics and scale requirements
+- `@vibe:dependencies` - External services and version requirements
+- `@vibe:observability` - How to monitor and debug in production
+- `@vibe:breaking` - Breaking changes to APIs or interfaces
+
+When tasking Claude, these directives ensure production concerns are documented upfront. See `docs/development-patterns.md` for examples of how to fill these out at different pattern levels (strict/moderate/relaxed).
+
 ---
 
 ## Quick Tasking Templates

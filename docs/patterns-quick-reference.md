@@ -2,6 +2,8 @@
 
 **Keep this handy when tasking Claude!**
 
+**Note**: VibeScript now requires 13 directives (up from 8). The 5 new production-focused directives are: security, performance, dependencies, observability, breaking. See full guide for examples at each pattern level.
+
 ---
 
 ## Quick Command Templates
@@ -59,6 +61,13 @@ Claude, read .vibe/claude-context.md and implement {{FEATURE}}
 - **Atomic**: One logical change per commit
 - **Feature**: Complete features per commit
 - **As Needed**: Flexible commit strategy
+
+### New: Production Directives
+- **Security**: Document auth, validation, vulnerabilities
+- **Performance**: Document complexity, scale, latency
+- **Dependencies**: Document external services, versions
+- **Observability**: Document logging, metrics, traces
+- **Breaking**: Document API/interface changes
 
 ---
 

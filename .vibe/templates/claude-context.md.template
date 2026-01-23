@@ -104,10 +104,12 @@ VibeScript governance is `[ ] Enabled  [ ] Disabled` for this project.
 
 If enabled, Claude must:
 1. Read `.vibe/claude.instructions.md` before making changes
-2. Create `.vibe.*` files with all required directives
+2. Create `.vibe.*` files with all 13 required directives (goal, touch, inputs, outputs, constraints, tests, risk, rollback, security, performance, dependencies, observability, breaking)
 3. Declare all touched files in `@vibe:touch` directives
 4. Run `vibe:check` and `vibe:guard` before committing
 5. Follow file ownership rules
+
+**Note**: VibeScript now requires 5 additional production-focused directives. See `docs/development-patterns.md` for guidance on how to fill these out at different pattern levels.
 
 ---
 
@@ -151,6 +153,13 @@ Here's an example of how to fill this template:
 **Commit Style**:
 - ✓ Size: Atomic
 - ✓ Scope: Surgical
+
+**Production Directives**:
+- ✓ Security: Defense in depth - validate all inputs, require auth, prevent injection
+- ✓ Performance: Document complexity and scale requirements
+- ✓ Dependencies: List all external services and version requirements
+- ✓ Observability: Include logging, metrics, and traces for debugging
+- ✓ Breaking: Explicitly state breaking changes or "none"
 
 ### Custom Instructions
 ```

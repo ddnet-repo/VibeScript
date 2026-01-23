@@ -253,6 +253,7 @@ POST endpoint to send cart reminder emails after 2 hours
 - [ ] Integration test with mocked email service
 - [ ] Error handling for all edge cases
 - [ ] Audit log for privacy compliance
+- [ ] All 13 VibeScript directives completed (including security, performance, dependencies, observability, breaking)
 
 ## Out of Scope
 - Don't add cart analytics (separate feature)

@@ -626,6 +626,141 @@ When uncertain:
 
 ---
 
+## Production-Focused Directives
+
+VibeScript now requires 13 directives (previously 8). The 5 new production-focused directives help prevent shipping code that works but has hidden problems. When applying development patterns, these directives ensure you consider critical production concerns:
+
+### @vibe:security - Security Implications
+
+Document security considerations aligned with your security patterns:
+
+**Defense in Depth** (Strict):
+```typescript
+// @vibe:security Validates all input with Zod schema, requires Bearer token auth with role-based access control, SQL injection prevented via parameterized queries, rate-limited at 100 req/min per IP, credentials never logged, HTTPS only
+```
+
+**Standard Checks** (Moderate):
+```typescript
+// @vibe:security Validates input, requires authentication, uses parameterized queries, rate-limited
+```
+
+**Basic** (Relaxed):
+```typescript
+// @vibe:security none - pure calculation function, no user input or external data
+```
+
+### @vibe:performance - Performance Characteristics
+
+Document performance aligned with your optimization patterns:
+
+**Performance-Critical**:
+```typescript
+// @vibe:performance O(log n) binary search with B-tree index, < 10ms p99 latency target, handles 50k req/sec, memory-mapped for large datasets
+```
+
+**Proactive Performance**:
+```typescript
+// @vibe:performance O(n) single pass, Redis cache with 5min TTL, paginated results (50 per page), indexed database queries
+```
+
+**Avoid Premature Optimization**:
+```typescript
+// @vibe:performance O(n) iteration, adequate for expected dataset size (< 1000 items)
+// @vibe:performance none - called infrequently (< 10/day), negligible impact
+```
+
+### @vibe:dependencies - External Dependencies
+
+Document dependencies aligned with your architecture:
+
+**Production Ready**:
+```typescript
+// @vibe:dependencies Redis 6.0+ for rate limiting, PostgreSQL 13+ with pg_trgm extension, @auth/core@^2.1.0, requires network access for OAuth callbacks, fallback to in-memory cache if Redis unavailable
+```
+
+**Move Fast**:
+```typescript
+// @vibe:dependencies PostgreSQL, axios@^1.0.0
+```
+
+**Pure/Isolated**:
+```typescript
+// @vibe:dependencies none - pure TypeScript, no external services
+```
+
+### @vibe:observability - Monitoring & Debugging
+
+Document observability aligned with your debugging strategy:
+
+**High Observability**:
+```typescript
+// @vibe:observability Structured logging with request_id/user_id/trace_id, emits auth_duration_ms and auth_failure_count metrics, exports traces to Jaeger, logs all errors with stack traces, adds X-Trace-Id to response headers
+```
+
+**Standard Monitoring**:
+```typescript
+// @vibe:observability Logs errors with context, emits duration_ms metric, includes trace_id
+```
+
+**Deterministic Functions**:
+```typescript
+// @vibe:observability none - pure function, deterministic output, nothing to monitor
+```
+
+### @vibe:breaking - Breaking Changes
+
+Document breaking changes for API stability:
+
+**Backward Compatible**:
+```typescript
+// @vibe:breaking none - new functionality, backward compatible
+// @vibe:breaking none - internal implementation change, same interface
+```
+
+**Has Breaking Changes**:
+```typescript
+// @vibe:breaking Renamed getUserById() to getUser(), removed deprecated legacy_auth field from User type, changed error status from 401 to 403 for insufficient permissions
+// @vibe:breaking Changed function signature: added required 'options' parameter, removed 'callback' (use Promise instead)
+```
+
+### Pattern Integration Examples
+
+**"Strict & Safe" with New Directives**:
+```typescript
+// @vibe:goal Validate and process payment transaction
+// @vibe:touch src/payment/*.ts
+// @vibe:inputs PaymentRequest with amount, currency, customer_id
+// @vibe:outputs PaymentResult with transaction_id or error
+// @vibe:constraints Amount must be > 0, currency in [USD, EUR, GBP]
+// @vibe:tests payment.test.ts with 100% coverage including fraud scenarios
+// @vibe:risk high
+// @vibe:rollback Revert commit, transactions are idempotent
+// @vibe:security Validates amount/currency format, requires authenticated customer, PCI-compliant via Stripe API, no card data stored locally, rate-limited at 10 payments/min per customer
+// @vibe:performance O(1) API call, 200ms p99 latency, handles 1000 concurrent transactions
+// @vibe:dependencies Stripe API v2023-10-16, PostgreSQL for transaction log, Redis for idempotency keys (24hr TTL)
+// @vibe:observability Logs all payment attempts with customer_id/amount/status, emits payment_duration_ms and payment_failure_count metrics, traces enabled, alerts on failure rate > 5%
+// @vibe:breaking none - new payment method, existing methods unchanged
+```
+
+**"Move Fast" with New Directives**:
+```typescript
+// @vibe:goal Add user profile avatar upload
+// @vibe:touch src/profile/*.ts
+// @vibe:inputs File upload (< 5MB), user_id
+// @vibe:outputs Avatar URL
+// @vibe:constraints JPEG/PNG only, max 5MB
+// @vibe:tests Upload test with valid/invalid files
+// @vibe:risk low
+// @vibe:rollback Delete uploaded files, revert commit
+// @vibe:security Validates file type and size, requires authentication, scans for malware via ClamAV
+// @vibe:performance Uploads to S3, async processing, < 2sec for typical images
+// @vibe:dependencies AWS S3, ClamAV daemon, sharp@^0.32.0 for image processing
+// @vibe:observability Logs upload attempts and failures, emits upload_duration_ms metric
+// @vibe:breaking none - new feature
+```
+
+---
+
 ## Anti-Patterns to Avoid
 
 Unless explicitly permitted, avoid:
