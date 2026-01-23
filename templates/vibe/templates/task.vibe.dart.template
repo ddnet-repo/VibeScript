@@ -1,0 +1,17 @@
+// @vibe:goal {{GOAL}}
+// @vibe:touch {{TOUCH}}
+// @vibe:inputs {{INPUTS}}
+// @vibe:outputs {{OUTPUTS}}
+// @vibe:constraints {{CONSTRAINTS}}
+// @vibe:tests {{TESTS}}
+// @vibe:risk {{RISK}}
+// @vibe:rollback {{ROLLBACK}}
+//
+// Created: {{DATE}}
+// ---
+
+/// {{GOAL}}
+void {{FUNCTION_NAME}}() {
+  // TODO: Implement
+  throw UnimplementedError('Not implemented');
+}

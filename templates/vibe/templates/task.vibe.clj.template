@@ -1,0 +1,16 @@
+; @vibe:goal {{GOAL}}
+; @vibe:touch {{TOUCH}}
+; @vibe:inputs {{INPUTS}}
+; @vibe:outputs {{OUTPUTS}}
+; @vibe:constraints {{CONSTRAINTS}}
+; @vibe:tests {{TESTS}}
+; @vibe:risk {{RISK}}
+; @vibe:rollback {{ROLLBACK}}
+;
+; Created: {{DATE}}
+; ---
+
+(defn {{FUNCTION_NAME}}
+  "{{GOAL}}"
+  []
+  (throw (ex-info "Not implemented" {})))

@@ -1,0 +1,18 @@
+// @vibe:goal {{GOAL}}
+// @vibe:touch {{TOUCH}}
+// @vibe:inputs {{INPUTS}}
+// @vibe:outputs {{OUTPUTS}}
+// @vibe:constraints {{CONSTRAINTS}}
+// @vibe:tests {{TESTS}}
+// @vibe:risk {{RISK}}
+// @vibe:rollback {{ROLLBACK}}
+//
+// Created: {{DATE}}
+// ---
+
+const std = @import("std");
+
+/// {{GOAL}}
+pub fn {{FUNCTION_NAME}}() !void {
+    return error.NotImplemented;
+}

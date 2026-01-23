@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# @vibe:goal {{GOAL}}
+# @vibe:touch {{TOUCH}}
+# @vibe:inputs {{INPUTS}}
+# @vibe:outputs {{OUTPUTS}}
+# @vibe:constraints {{CONSTRAINTS}}
+# @vibe:tests {{TESTS}}
+# @vibe:risk {{RISK}}
+# @vibe:rollback {{ROLLBACK}}
+#
+# Created: {{DATE}}
+# ---
+
+# {{GOAL}}
+{{FUNCTION_NAME}}() {
+  echo "Error: Not implemented" >&2
+  return 1
+}

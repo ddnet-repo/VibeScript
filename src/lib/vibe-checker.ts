@@ -5,6 +5,7 @@ import { getBaseRef, getChangedFiles } from './git-utils.js';
 import { validateDirectives, getTouchGlobs } from './directive-parser.js';
 import { matchesAnyGlob } from './glob-matcher.js';
 import { createReport, writeReport, printReport, type Violation } from './report.js';
+import { isVibeFile, detectLanguage } from './language-config.js';
 
 interface OwnershipConfig {
   touch_exempt_globs?: string[];
@@ -43,11 +44,11 @@ export async function runVibeChecker(baseRefOverride?: string): Promise<number> 
 
   console.log(pc.dim(`Changed files: ${changedFiles.length}`));
 
-  // Find changed .vibe.ts files
-  const vibeFiles = changedFiles.filter(f => f.endsWith('.vibe.ts'));
+  // Find changed vibe files (any supported language)
+  const vibeFiles = changedFiles.filter(f => isVibeFile(f));
 
   if (vibeFiles.length === 0) {
-    console.log(pc.yellow('\nNo .vibe.ts files in the changeset. Skipping directive checks.\n'));
+    console.log(pc.yellow('\nNo vibe files in the changeset. Skipping directive checks.\n'));
     return 0;
   }
 
@@ -57,10 +58,14 @@ export async function runVibeChecker(baseRefOverride?: string): Promise<number> 
   const allTouchGlobs: string[] = [];
   const touchExemptGlobs = config.touch_exempt_globs || [];
 
-  // Validate each .vibe.ts file
+  // Validate each vibe file
   for (const vibeFile of vibeFiles) {
     const filePath = path.join(cwd, vibeFile);
     console.log(pc.dim(`Checking ${vibeFile}...`));
+
+    // Get language config for proper comment style in error messages
+    const langConfig = detectLanguage(vibeFile);
+    const commentPrefix = langConfig?.lineCommentPrefix || '//';
 
     try {
       const validation = validateDirectives(filePath);
@@ -73,7 +78,7 @@ export async function runVibeChecker(baseRefOverride?: string): Promise<number> 
             message: error,
             details: validation.missing.length > 0
               ? `FIX: Add these directives to the top of the file:\n` +
-                validation.missing.map(d => `  // @vibe:${d} <value>`).join('\n')
+                validation.missing.map(d => `  ${commentPrefix} @vibe:${d} <value>`).join('\n')
               : undefined,
           });
         }
@@ -94,8 +99,8 @@ export async function runVibeChecker(baseRefOverride?: string): Promise<number> 
   // Verify all changed files match at least one touch glob
   if (config.require_touch_enforcement !== false && allTouchGlobs.length > 0) {
     for (const changedFile of changedFiles) {
-      // Skip the .vibe.ts files themselves - they're always allowed
-      if (changedFile.endsWith('.vibe.ts')) {
+      // Skip vibe files themselves - they're always allowed
+      if (isVibeFile(changedFile)) {
         continue;
       }
 
@@ -115,8 +120,8 @@ export async function runVibeChecker(baseRefOverride?: string): Promise<number> 
           message: `File changed but not declared in any @vibe:touch directive`,
           details:
             `Declared patterns: ${allTouchGlobs.join(', ') || '(none)'}\n` +
-            `FIX: Add to @vibe:touch in your .vibe.ts file:\n` +
-            `  // @vibe:touch ${suggestedPattern}\n` +
+            `FIX: Add to @vibe:touch in your vibe file:\n` +
+            `  ${getCommentPrefix(changedFile)} @vibe:touch ${suggestedPattern}\n` +
             `Or stop modifying this file.`,
         });
       }
@@ -162,6 +167,11 @@ function suggestTouchPattern(filePath: string): string {
   return `${dir}/**/*${ext}`;
 }
 
+function getCommentPrefix(filePath: string): string {
+  const langConfig = detectLanguage(filePath);
+  return langConfig?.lineCommentPrefix || '//';
+}
+
 function printFixSummary(violations: Violation[]): void {
   const byType = new Map<string, Violation[]>();
 
@@ -175,7 +185,7 @@ function printFixSummary(violations: Violation[]): void {
 
   if (byType.has('MISSING_DIRECTIVE')) {
     console.log(pc.yellow('Missing directives:'));
-    console.log('  Add required directives to your .vibe.ts files.');
+    console.log('  Add required directives to your vibe files.');
     console.log('  Required: goal, touch, inputs, outputs, constraints, tests, risk, rollback\n');
   }
 
@@ -184,9 +194,11 @@ function printFixSummary(violations: Violation[]): void {
     const patterns = [...new Set(touchViolations.map(v => suggestTouchPattern(v.file)))];
 
     console.log(pc.yellow('Undeclared file changes:'));
-    console.log('  Option 1: Add to @vibe:touch in your .vibe.ts:');
+    console.log('  Option 1: Add to @vibe:touch in your vibe file:');
     for (const pattern of patterns.slice(0, 5)) {
-      console.log(`    // @vibe:touch ${pattern}`);
+      // Use appropriate comment prefix
+      const commentPrefix = getCommentPrefix(pattern);
+      console.log(`    ${commentPrefix} @vibe:touch ${pattern}`);
     }
     if (patterns.length > 5) {
       console.log(`    ... and ${patterns.length - 5} more`);
